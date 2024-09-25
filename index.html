@@ -5,54 +5,170 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Brain Wave Analyzer</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    #loading {
-      display: none;
-      font-size: 20px;
-      color: blue;
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+    .container {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 40px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #f9f9f9;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #333;
+      text-align: center;
+    }
+    input[type="number"]:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 8px;
+      background: #f06c64;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #ff8b80;
     }
     #result {
       display: none;
-      font-size: 24px;
+      font-size: 2em;
+      margin-top: 30px;
+      color: #fff;
+    }
+
+    /* Popup Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background-color: #222;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      color: #ffcc00;
+      font-size: 1.5em;
       font-weight: bold;
-      margin-top: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+    .modal-content p {
+      margin: 0;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* For smaller screens */
+    @media (max-width: 600px) {
+      .container {
+        padding: 30px;
+      }
+      h1 {
+        font-size: 1.6em;
+      }
+      input[type="number"], button {
+        font-size: 1em;
+      }
+      #result {
+        font-size: 1.5em;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>Enter a Number</h1>
-  <input type="number" id="numberInput" placeholder="Enter number">
-  <button onclick="analyzeNumber()">Analyze</button>
+  <div class="container">
+    <h1>Brain Wave Analyzer</h1>
+    <input type="number" id="numberInput" placeholder="Enter number">
+    <button onclick="analyzeNumber()">Analyze</button>
 
-  <div id="loading">Analyzing brain waves...</div>
-  <div id="result"></div>
+    <div id="result"></div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content" id="modalContent">
+      <p id="modalMessage">AI is learning your personality...</p>
+    </div>
+  </div>
 
   <script>
     function analyzeNumber() {
       const number = document.getElementById("numberInput").value;
-      const loadingElement = document.getElementById("loading");
       const resultElement = document.getElementById("result");
+      const modalOverlay = document.getElementById("modalOverlay");
+      const modalMessage = document.getElementById("modalMessage");
 
       if (number === "") {
         alert("Please enter a number!");
         return;
       }
 
-      // Hide result and show loading message
+      // Hide the result and show the modal popup
       resultElement.style.display = "none";
-      loadingElement.style.display = "block";
+      modalOverlay.style.display = "flex";
 
-      // Simulate loading state for 2 seconds
+      // Step 1: Show "AI is learning your personality" for 3 seconds
+      modalMessage.textContent = "AI is learning your personality...";
       setTimeout(() => {
-        loadingElement.style.display = "none"; // Hide loading
-        resultElement.style.display = "block"; // Show result
-        resultElement.innerHTML = `You entered: ${number}`;
-      }, 2000);
+        // Step 2: Show "Analyzing brain waves..." for 5 seconds
+        modalMessage.textContent = "Analyzing brain waves...";
+        setTimeout(() => {
+          // Step 3: Show result and hide the modal
+          modalOverlay.style.display = "none"; // Hide the modal
+          resultElement.style.display = "block"; // Show the result
+          resultElement.innerHTML = `You are thinking of the number: ${number}`;
+        }, 5000); // Wait 5 seconds for analyzing brain waves
+      }, 3000); // Wait 3 seconds for learning personality
     }
   </script>
 
