@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brain Wave Analyzer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #loading {
+      display: none;
+      font-size: 20px;
+      color: blue;
+    }
+    #result {
+      display: none;
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Enter a Number</h1>
+  <input type="number" id="numberInput" placeholder="Enter number">
+  <button onclick="analyzeNumber()">Analyze</button>
+
+  <div id="loading">Analyzing brain waves...</div>
+  <div id="result"></div>
+
+  <script>
+    function analyzeNumber() {
+      const number = document.getElementById("numberInput").value;
+      const loadingElement = document.getElementById("loading");
+      const resultElement = document.getElementById("result");
+
+      if (number === "") {
+        alert("Please enter a number!");
+        return;
+      }
+
+      // Hide result and show loading message
+      resultElement.style.display = "none";
+      loadingElement.style.display = "block";
+
+      // Simulate loading state for 2 seconds
+      setTimeout(() => {
+        loadingElement.style.display = "none"; // Hide loading
+        resultElement.style.display = "block"; // Show result
+        resultElement.innerHTML = `You entered: ${number}`;
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>
